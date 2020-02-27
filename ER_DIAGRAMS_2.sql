@@ -26,7 +26,7 @@ CREATE TABLE Games(
     PRIMARY KEY(game_round, game_player_black, game_player_white)
 );
 
-/*NEW CORRECT(HOPEFULLY CORRECT) SOLUTION*/
+/*NEW CORRECT SOLUTION*/
 CREATE TABLE Players(
     ELO UNSIGNED INT NOT NULL,
     Name VARCHAR(255) NOT NULL,
