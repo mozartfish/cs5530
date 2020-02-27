@@ -27,3 +27,19 @@ b) select Phone from CheckedOut natural join Inventory natural join Titles natur
 c) select Phone from CheckedOut natural join Inventory natural join Titles natural join Phones where Title = "Hyperion";
 d) select Phone from CheckedOut natural join Inventory natural join Titles natural join Phones where Title = "Endymion";
 e) select Phone from CheckedOut natural join Inventory natural join Titles natural join Phones where Title = "Profiles in Courage";
+
+PART 4 INTERMEDIATE RETRIEVAL QUERIES
+
+1. FIND THE TITLES OF THE LIBRARY'S OLDEST <N> BOOKS. ASSUME THE LOWEST SERIAL NUMBER IS THE OLDEST BOOK.
+a) select Title from Titles natural join Inventory ORDER BY Serial ASC LIMIT BY <N>;
+
+2. FIND THE NAME OF THE PERSON WHO HAS CHECKED OUT THE MOST RECENT BOOK. ASSUME HIGHER SERIAL NUMBERS ARE NEWER.
+a) select Name from Titles natural join Inventory natural join CheckedOut natural join Patrons ORDER BY Serial DESC Limit 1;
+
+3. FIND THE PHONE NUMBER(S) OF ANYONE WHO HAS NOT CHECKED OUT ANY BOOKS 
+a) select Phone from Phones where CardNum NOT IN (select CardNum from CheckedOut);
+
+4. THE LIBRARY WANTS TO EXOAND THE NUMBER OF UNIQUE SELECTIONS IN ITS INVENTORY, THUS IT MUST KNOW THE 
+   ISBN AND TITLE OF ALL BOOKS THAT IT OWNS AT LEAST ONE COPY OF. CREATE A QUERY THAT WILL RETURN THE ISBN
+   AND TITLE OF EVERHY BOOK IN THE LIBRARY, BUT WILL NOT REUTRN THE SAME BOOK TWICE.
+a) select Distinct Title, ISBN from Inventory natural join Titles;
