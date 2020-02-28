@@ -1,45 +1,17 @@
 PART 3 RETRIEVAL QUERIES 
-
-1. GET THE TITLES OF ALL BOOKS BY <AUTHOR>
-a) select Title from Titles where Author = "Kennedy";
-b) select Title from Titles where Author = "Seuss";
-c) select Title from Titles where Author = "Herbert";
-d) select Title from Titles where Author = "Simmons";
-e) select Title from Titles where Author = "Rowling";
-f) select Title from Titles where Author = "Faulkner";
-
-2. GET SERIAL NUMBERS OF ALL BOOKS BY <AUTHOR>
-a) select Serial from Titles natural join Inventory where Author = "Kennedy";
-b) select Serial from Titles natural join Inventory where Author = "Seuss";
-c) select Serial from Titles natural join Inventory where Author = "Herbert";
-d) select Serial from Titles natural join Inventory where Author = "Simmons";
-e) select Serial from Titles natural join Inventory where Author = "Rowling";
-f) select Serial from Titles natural join Inventory where Author = "Faulkner";
-
-3. GET THE TITLES OF ALL BOOKS CHECKED OUT BY <PATRON NAME>
-a) select Title from Patrons natural join CheckedOut natural join Inventory natural join Titles where Name = "Joe";
-b) select Title from Patrons natural join CheckedOut natural join Inventory natural join Titles where Name = "Ann";
-c) select Title from Patrons natural join CheckedOut natural join Inventory natural join Titles where Name = "Dan";
-
-4. GET PHONE NUMBER(S) OF ANYONE WITH <TITLE> CHECKED OUT
-a) select Phone from CheckedOut natural join Inventory natural join Titles natural join Phones where Title = "Harry Potter";
-b) select Phone from CheckedOut natural join Inventory natural join Titles natural join Phones where Title = "The Lorax";
-c) select Phone from CheckedOut natural join Inventory natural join Titles natural join Phones where Title = "Hyperion";
-d) select Phone from CheckedOut natural join Inventory natural join Titles natural join Phones where Title = "Endymion";
-e) select Phone from CheckedOut natural join Inventory natural join Titles natural join Phones where Title = "Profiles in Courage";
+1. select Title from Titles where Author = <AUTHOR>;
+2. select Serial from Titles natural join Inventory where Author = <AUTHOR>;
+3. select Title from Patrons natural join CheckedOut natural join Inventory natural join Titles where Name = <PATRON NAME>;
+4. select Phone from CheckedOut natural join Inventory natural join Titles natural join Phones where Title = <TITLE>;
 
 PART 4 INTERMEDIATE RETRIEVAL QUERIES
+1. select Title from Titles natural join Inventory ORDER BY Serial ASC LIMIT BY <N>;
+2. select Name from Titles natural join Inventory natural join CheckedOut natural join Patrons ORDER BY Serial DESC Limit 1;
+3. select Phone from Phones where CardNum NOT IN (select CardNum from CheckedOut);
+4. select Distinct Title, ISBN from Inventory natural join Titles;
 
-1. FIND THE TITLES OF THE LIBRARY'S OLDEST <N> BOOKS. ASSUME THE LOWEST SERIAL NUMBER IS THE OLDEST BOOK.
-a) select Title from Titles natural join Inventory ORDER BY Serial ASC LIMIT BY <N>;
-
-2. FIND THE NAME OF THE PERSON WHO HAS CHECKED OUT THE MOST RECENT BOOK. ASSUME HIGHER SERIAL NUMBERS ARE NEWER.
-a) select Name from Titles natural join Inventory natural join CheckedOut natural join Patrons ORDER BY Serial DESC Limit 1;
-
-3. FIND THE PHONE NUMBER(S) OF ANYONE WHO HAS NOT CHECKED OUT ANY BOOKS 
-a) select Phone from Phones where CardNum NOT IN (select CardNum from CheckedOut);
-
-4. THE LIBRARY WANTS TO EXOAND THE NUMBER OF UNIQUE SELECTIONS IN ITS INVENTORY, THUS IT MUST KNOW THE 
-   ISBN AND TITLE OF ALL BOOKS THAT IT OWNS AT LEAST ONE COPY OF. CREATE A QUERY THAT WILL RETURN THE ISBN
-   AND TITLE OF EVERHY BOOK IN THE LIBRARY, BUT WILL NOT REUTRN THE SAME BOOK TWICE.
-a) select Distinct Title, ISBN from Inventory natural join Titles;
+PART 5 ADVANCED RETRIEVAL QUERIES
+1. select Name,  Count(*) from CheckedOut natural join Inventory natural join Patrons natural join Titles Group by CardNum limit 1;
+2. select Author, Count(*) as c from Titles Group BY Author HAVING c > 1;
+3. select Author from (select Author, Count(*) as c from Titles natural join Inventory GROUP BY Author Having c > 1) as d;
+4. 
