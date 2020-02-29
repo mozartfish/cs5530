@@ -5,7 +5,7 @@ PART 3 RETRIEVAL QUERIES
 4. select Phone from CheckedOut natural join Inventory natural join Titles natural join Phones where Title = <TITLE>;
 
 PART 4 INTERMEDIATE RETRIEVAL QUERIES
-1. select Title from Titles natural join Inventory ORDER BY Serial ASC LIMIT BY <N>;
+1. select Titles natural join Inventory ORDER BY Serial ASC LIMIT BY <N>;
 2. select Name from Titles natural join Inventory natural join CheckedOut natural join Patrons ORDER BY Serial DESC Limit 1;
 3. select Phone from Phones where CardNum NOT IN (select CardNum from CheckedOut);
 4. select Distinct Title, ISBN from Inventory natural join Titles;
@@ -14,4 +14,19 @@ PART 5 ADVANCED RETRIEVAL QUERIES
 1. select Name,  Count(*) from CheckedOut natural join Inventory natural join Patrons natural join Titles Group by CardNum limit 1;
 2. select Author, Count(*) as c from Titles Group BY Author HAVING c > 1;
 3. select Author from (select Author, Count(*) as c from Titles natural join Inventory GROUP BY Author Having c > 1) as d;
-4. 
+4. select Name, counter,
+    case 
+    when counter > 2 THEN 'Platinum'
+    when counter = 2 THEN 'Gold'
+    when counter = 1 THEN  'Silver'
+    when counter = 0 THEN 'Bronze'
+    end as Loyalty
+    from(Select Name, Count(Serial) as counter from Patrons LEFT JOIN CheckedOut on Patrons.CardNum = CheckedOut.CardNum GROUP BY Patrons.CardNum) as d;
+
+PART 6 MANIPULATION QUERIES
+1. DELETE FROM CheckedOut WHERE CardNum = (select CardNum from Patrons where Name = <PATRON NAME>);
+2. INSERT INTO CheckedOut(CardNum, Serial) values((Select CardNum from Patrons where Name = "Joe"),
+(Select Serial from Titles natural join Inventory where Title = "Harry Potter" AND Serial NOT IN(Select Serial from CheckedOut as c)));
+3. 
+
+
