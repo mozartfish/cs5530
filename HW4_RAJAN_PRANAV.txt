@@ -1,3 +1,15 @@
+PART 2 CREATING THE DEALERSHIP
+CREATE TABLE Selling(
+    SSN INT UNSIGNED NOT NULL,
+    VIN INT UNSIGNED NOT NULL,
+    PRIMARY KEY(SSN, VIN),
+    FOREIGN KEY(SSN) REFERENCES Salespeople(SSN)
+    ON DELETE CASCADE,
+    FOREIGN KEY(VIN) REFERENCES Cars(VIN)
+    ON DELETE CASCADE
+);
+
+
 PART 3 RETRIEVAL QUERIES 
 1. select Title from Titles where Author = <AUTHOR>;
 2. select Serial from Titles natural join Inventory where Author = <AUTHOR>;
@@ -25,8 +37,22 @@ PART 5 ADVANCED RETRIEVAL QUERIES
 
 PART 6 MANIPULATION QUERIES
 1. DELETE FROM CheckedOut WHERE CardNum = (select CardNum from Patrons where Name = <PATRON NAME>);
-2. INSERT INTO CheckedOut(CardNum, Serial) values((Select CardNum from Patrons where Name = "Joe"),
-(Select Serial from Titles natural join Inventory where Title = "Harry Potter" AND Serial NOT IN(Select Serial from CheckedOut as c)));
-3. 
+2. INSERT INTO CheckedOut(CardNum, Serial) values((Select CardNum from Patrons where Name = <PATRON NAME>),
+(Select Serial from Titles natural join Inventory where Title = <TITLE> AND Serial NOT IN(Select Serial from CheckedOut as c)));
+3. a) DELETE FROM CheckedOut
+   b) DELETE FROM Inventory
+   c) DELETE FROM Titles
+   d) DELETE FROM Phones
+   e) DELETE FROM Patrons
+
+PART 7 CHESS QUERIES
+1. Select Name from Players where Players.ELO > 2850;
+2. Select Distinct Name from Players Join Games Where Players.pID = WhitePlayer;
+3. Select Distinct Name from Games join Players where Games.WhitePlayer = Players.pID AND Games.Result = 'W';
+4.
+5.
+6.
+7.
+
 
 
