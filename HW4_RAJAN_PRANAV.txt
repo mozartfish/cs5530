@@ -46,13 +46,64 @@ PART 6 MANIPULATION QUERIES
    e) DELETE FROM Patrons
 
 PART 7 CHESS QUERIES
-1. Select Name from Players where Players.ELO > 2850;
-2. Select Distinct Name from Players Join Games Where Players.pID = WhitePlayer;
-3. Select Distinct Name from Games join Players where Games.WhitePlayer = Players.pID AND Games.Result = 'W';
-4.
-5.
-6.
-7.
+1. Select Distinct Name from Players where Players.Elo > 2850;
+
+2. Select Distinct Name from Games JOIN Players where Players.pID = Games.WhitePlayer;
+
+3. Select Distinct Name from Games join Players where Players.pID = Games.WhitePlayer AND Games.Result = 'W';
+
+4. Select Distinct Name from
+(select Games.WhitePlayer, Games.BlackPlayer from Events join Games where
+Year(Events.Date)='2018' and Games.eID = Events.eID) as Players18
+join Players on Players18.WhitePlayer=Players.piD OR Players18.BlackPlayer=Players.pID;
+
+5.Select Name, Year(Date) from
+((Select eID from
+(Select pID FROM Players where Players.Name='Carlsen, Magnus') as Carlsen join Games on Games.WhitePlayer=Carlsen.pID and Games.Result='B') UNION (Select eID from
+(Select pID FROM Players where Players.Name='Carlsen, Magnus') as Carlsen join Games on Games.BlackPlayer=Carlsen.pID and Games.Result='W')) as d
+join Events on Events.eID = d.eID;
+
+6.select Name from (Select Distinct Name from
+(Select WhitePlayer from (Select pID from Players where Players.Name='Carlsen, Magnus') as Carlsen
+join Games on Games.BlackPlayer=Carlsen.pID) as d
+join Players on Players.pID = d.WhitePlayer UNION Select Distinct Name from
+(Select BlackPlayer from (Select pID from Players where Players.Name='Carlsen, Magnus') as Carlsen
+join Games on Games.WhitePlayer=Carlsen.pID) as d
+join Players on Players.pID = d.BlackPlayer) as getShrekt;
+
+7. Select Distinct Name from
+(Select p.pID from (select pID from Players) as p WHERE p.pID NOT IN (Select g.pID from(Select pID from Players join Games where Games.Result='B' and Games.WhitePlayer=Players.pID) as g)
+AND p.pID NOT IN (Select b.pID from(Select pID from Players join Games where Games.Result='W' and Games.BlackPlayer=Players.pID) as b)) as d
+join Players on Players.pID=d.pID;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
