@@ -1,0 +1,2 @@
+C:\Users\dkopta\Desktop\ChessBrowser\ChessBrowser\Resources\obj\Debug\Resources.csprojAssemblyReference.cache
+C:\Users\dkopta\Desktop\ChessBrowser\ChessBrowser\Resources\obj\Debug\Resources.csproj.CoreCompileInputs.cache

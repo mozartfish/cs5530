@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29806.167
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChessBrowser", "ChessBrowser\ChessBrowser.csproj", "{FB7E0D18-51B9-45F5-BDD3-8E7DE3FB84AC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resources", "Resources\Resources.csproj", "{C5B985E8-16C7-41F5-94DA-90F88598257D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChessTools", "ChessTools\ChessTools.csproj", "{E94B36D1-5145-4962-81AE-C4286E2D055C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,10 +20,6 @@ Global
 		{C5B985E8-16C7-41F5-94DA-90F88598257D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C5B985E8-16C7-41F5-94DA-90F88598257D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5B985E8-16C7-41F5-94DA-90F88598257D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E94B36D1-5145-4962-81AE-C4286E2D055C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E94B36D1-5145-4962-81AE-C4286E2D055C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E94B36D1-5145-4962-81AE-C4286E2D055C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E94B36D1-5145-4962-81AE-C4286E2D055C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -34,12 +34,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ChessBrowser\ChessBrowser.csproj">
-      <Project>{fb7e0d18-51b9-45f5-bdd3-8e7de3fb84ac}</Project>
-      <Name>ChessBrowser</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Libraries\MySql.Data.dll" />
   </ItemGroup>
