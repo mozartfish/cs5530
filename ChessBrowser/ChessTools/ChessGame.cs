@@ -20,7 +20,7 @@ namespace ChessTools
         /// <summary>
         /// The round in which the game took place. Not always convertible to a number since it can also have decimals
         /// </summary>
-        private Double Round;
+        private String Round;
         /// <summary>
         /// The name of the white player
         /// </summary>
@@ -32,11 +32,11 @@ namespace ChessTools
         /// <summary>
         /// The white player's ELO rating at the time of the game
         /// </summary>
-        private int WhiteElo;
+        private Int32 WhiteElo;
         /// <summary>
         /// The black player's ELO rating at the time of the game
         /// </summary>
-        private int BlackElo;
+        private Int32 BlackElo;
         /// <summary>
         /// The result of the game
         /// </summary>
@@ -67,7 +67,7 @@ namespace ChessTools
         {
             this.Event = Event;
             this.Site = Site;
-            this.Round = Double.Parse(Round);
+            this.Round = Round;
             this.WhitePlayer = WhitePlayer;
             this.BlackPlayer = BlackPlayer;
             this.WhiteElo = Int32.Parse(WhiteElo);
@@ -76,5 +76,16 @@ namespace ChessTools
             this.EventDate = EventDate;
             this.Moves = Moves;
         }
+
+        public String getEvent { get => this.Event;}
+        public String getSite { get => this.Site; }
+        public String getRound { get => this.Round; }
+        public String getWhitePlayer { get => this.WhitePlayer; }
+        public String getBlackPlayer { get => this.BlackPlayer; }
+        public int getBlackELO { get => this.BlackElo; }
+        public int getWhiteElo { get => this.WhiteElo; }
+        public String getResult { get => this.Result; }
+        public String getEventDate { get => this.EventDate; }
+        public String getMoves { get => this.Moves; }
     }
 }
