@@ -8,21 +8,25 @@ namespace ChessTools
 {
     /// <summary>
     /// Class that defines a PGN Reader Object for processing and storing chess games
+    /// Author: Pranav Rajan
+    /// Date: March 1, 2020
     /// </summary>
     public static class PGNReader
     {
         /// <summary>
-        /// Function that generates chess games from a PGN File
+        /// Reads in data from a PGN file and creates Chess Game Objects
         /// </summary>
         /// <param name="FilePath">The path of the PGN File</param>
         /// <returns>List of chess games</returns>
-        public static List<ChessGame> GenerateChessGames(String filePath)
+        public static List<ChessGame>GenerateChessGames(String filePath)
         {
             // List for storing all the chess games
             List<ChessGame> chessGames = new List<ChessGame>();
             String[] file = File.ReadAllLines(filePath);
 
             // Variables that store information for the different parts of a game
+            // The String type was chosen to represent all the data to based on the types for the different 
+            // tables. For types that need further processing, that is handled in the Chess Game Class
 
             // Represents the name of the event
             String Event = "";
@@ -52,7 +56,7 @@ namespace ChessTools
                 String CurrentLine = file[LineNumber];
 
                 // CASE 1: EVENTS
-                if (CurrentLine.StartsWith("[Event"))
+                if (CurrentLine.StartsWith("[Event "))
                 {
                     //int thing = CurrentLine.IndexOf("Event");
                     int StartIndex = CurrentLine.IndexOf(' ') + 2;
@@ -95,14 +99,17 @@ namespace ChessTools
                     int Length = CurrentLine.Length - 2 - StartIndex;
                     Result = CurrentLine.Substring(StartIndex, Length);
 
-                    if (Result.Equals("1 / 2 - 1 / 2"))
+                    // CASE 1: DRAW
+                    if (Result.Equals("1/2-1/2"))
                     {
                         Result = "D";
                     }
+                    // CASE 2: BLACK WINS
                     else if (Result.Equals("0-1"))
                     {
                         Result = "B";
                     }
+                    // CASE 3: WHITE WINS
                     else
                     {
                         Result = "W";
@@ -161,7 +168,6 @@ namespace ChessTools
                     }
                 }
             }
-
             return chessGames;
         }
     }

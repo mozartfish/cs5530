@@ -70,22 +70,58 @@ namespace ChessTools
             this.Round = Round;
             this.WhitePlayer = WhitePlayer;
             this.BlackPlayer = BlackPlayer;
+
+            // Convert the ELO Rank to Integer Based on the Players and Event Table Specs
             this.WhiteElo = Int32.Parse(WhiteElo);
             this.BlackElo = Int32.Parse(BlackElo);
+
             this.Result = Result;
             this.EventDate = EventDate;
             this.Moves = Moves;
         }
 
+        /// <summary>
+        /// Returns the name of the event
+        /// </summary>
         public String getEvent { get => this.Event;}
+        /// <summary>
+        /// Returns the site
+        /// </summary>
         public String getSite { get => this.Site; }
+        /// <summary>
+        /// Returns the round
+        /// </summary>
         public String getRound { get => this.Round; }
+        /// <summary>
+        /// Returns the name of the white player
+        /// </summary>
         public String getWhitePlayer { get => this.WhitePlayer; }
+        /// <summary>
+        /// Returns the name of the black player
+        /// </summary>
         public String getBlackPlayer { get => this.BlackPlayer; }
-        public int getBlackELO { get => this.BlackElo; }
+        /// <summary>
+        /// Returns the  ELO Rank of the black player
+        /// </summary>
+        public int getBlackElo { get => this.BlackElo; }
+        /// <summary>
+        /// Returns the ELO Rank of the White Player
+        /// </summary>
         public int getWhiteElo { get => this.WhiteElo; }
+        /// <summary>
+        /// Returns the result of the Game
+        /// If the score is "W" then White won
+        /// If the score is "B" then Black won
+        /// If the score is "D" then there is a draw
+        /// </summary>
         public String getResult { get => this.Result; }
+        /// <summary>
+        /// Returns the event data
+        /// </summary>
         public String getEventDate { get => this.EventDate; }
+        /// <summary>
+        /// Returns the moves in the game
+        /// </summary>
         public String getMoves { get => this.Moves; }
     }
 }
