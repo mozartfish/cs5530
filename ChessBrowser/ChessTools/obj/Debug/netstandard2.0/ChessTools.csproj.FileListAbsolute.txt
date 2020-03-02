@@ -5,4 +5,3 @@ C:\Users\rajan\Desktop\cs_work\cs5530\ChessBrowser\ChessTools\obj\Debug\netstand
 C:\Users\rajan\Desktop\cs_work\cs5530\ChessBrowser\ChessTools\obj\Debug\netstandard2.0\ChessTools.AssemblyInfo.cs
 C:\Users\rajan\Desktop\cs_work\cs5530\ChessBrowser\ChessTools\obj\Debug\netstandard2.0\ChessTools.dll
 C:\Users\rajan\Desktop\cs_work\cs5530\ChessBrowser\ChessTools\obj\Debug\netstandard2.0\ChessTools.pdb
-C:\Users\rajan\Desktop\cs_work\cs5530\ChessBrowser\ChessTools\obj\Debug\netstandard2.0\ChessTools.csprojAssemblyReference.cache

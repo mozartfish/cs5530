@@ -21,7 +21,7 @@ namespace ChessTools
         public static List<ChessGame>GenerateChessGames(String filePath)
         {
             // List for storing all the chess games
-            List<ChessGame> chessGames = new List<ChessGame>();
+            List<ChessGame> ChessGames = new List<ChessGame>();
             String[] file = File.ReadAllLines(filePath);
 
             // Variables that store information for the different parts of a game
@@ -151,7 +151,7 @@ namespace ChessTools
                     {
                         // Create a new game and add it to the list of games
                         ChessGame NewGame = new ChessGame(Event, Site, Round, WhitePlayer, BlackPlayer, WhiteElo, BlackElo, Result, EventDate, Moves);
-                        chessGames.Add(NewGame);
+                        ChessGames.Add(NewGame);
 
                         // Reset all values for processing next game
                         Event = "";
@@ -168,7 +168,7 @@ namespace ChessTools
                     }
                 }
             }
-            return chessGames;
+            return ChessGames;
         }
     }
 }

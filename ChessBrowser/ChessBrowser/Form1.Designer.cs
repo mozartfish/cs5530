@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using ChessTools;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -29,13 +30,15 @@ namespace ChessBrowser
       // assuimg you've typed a user and password in the GUI
       string connection = GetConnectionString();
 
-      // TODO: Load and parse the PGN file
-      //       We recommend creating separate libraries to represent chess data and load the file
+            // TODO: Load and parse the PGN file
+            //       We recommend creating separate libraries to represent chess data and load the file
+            List<ChessGame> ChessGames = PGNReader.GenerateChessGames(PGNfilename);
 
-      // Use this to tell the GUI's progress bar how many total work steps there are
-      // For example, one iteration of your main upload loop could be one work step
-      // SetNumWorkItems(...);
 
+            // Use this to tell the GUI's progress bar how many total work steps there are
+            // For example, one iteration of your main upload loop could be one work step
+            // SetNumWorkItems(...);
+            SetNumWorkItems(ChessGames.Count);
 
       using (MySqlConnection conn = new MySqlConnection(connection))
       {
@@ -48,6 +51,7 @@ namespace ChessBrowser
 
           // Use this to tell the GUI that one work step has completed:
           // WorkStepCompleted();
+          WorkStepCompleted();
 
         }
         catch (Exception e)
