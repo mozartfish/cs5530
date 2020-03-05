@@ -62,7 +62,6 @@ namespace ChessTools
                     int StartIndex = CurrentLine.IndexOf(' ') + 2;
                     int Length = CurrentLine.Length - 2 - StartIndex;
                     Event = CurrentLine.Substring(StartIndex, Length);
-
                 }
                 // CASE 2: SITE
                 else if (CurrentLine.StartsWith("[Site"))
