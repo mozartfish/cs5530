@@ -49,16 +49,51 @@ namespace ChessBrowser
 
                     // TODO: iterate through your data and generate appropriate insert commands
 
-                    // DIRTY DATA => There may be dirty data, so those games need to be removed
+                    // DIRTY DATA => There may be dirty data, so those games need to be removed (handled with INSERT IGNORE)
 
-                    // ORDER OF INSTERTION
-                    // PLAYERS
-                    MySqlCommand InsertPlayers = conn.CreateCommand();
+                    // SQL COMMANDS
+                    // INSERT PLAYERS
+                    MySqlCommand InsertPlayersCommand = conn.CreateCommand();
+                    InsertPlayersCommand.CommandText = "INSERT INTO Players(Name, Elo, pID) VALUES(@PlayerName, @PlayerElo, @PlayereID)";
+
+                    // FIND PLAYERS
+                    MySqlCommand FindPlayersCommand = conn.CreateCommand();
+                    FindPlayersCommand.CommandText = "SELECT Name, Elo FROM Players WHERE Name=@FindPlayerName";
+
+                    // UPDATE PLAYER ELO RATING TO THE HIGHEST ELO RATING SEEN SO FAR
+                    MySqlCommand HighestEloCommand = conn.CreateCommand();
+                    HighestEloCommand.CommandText = "UPDATE Players(Elo) SET Elo=@HighestEloSoFar WHERE Name=@ThePlayerName";
+
                     // EVENTS
-                    MySqlCommand InsertEvents = conn.CreateCommand();
-                    // GAMES
-                    MySqlCommand InsertGames = conn.CreateCommand();
+                    MySqlCommand InsertEventCommand = conn.CreateCommand();
+                    InsertEventCommand.CommandText = "INSERT IGNORE INTO Events(Name, Site, Date) VALUES(@EventName, @EventSite, @EventDate)";
 
+                    // GAMES
+                    MySqlCommand InsertGamesCommand = conn.CreateCommand();
+                    InsertGamesCommand.CommandText = "INSERT IGNORE INTO Games(Round, Result, Moves, WhitePlayer, BlackPlayer, eID) VALUES(@GameResult, @GameMoves, " +
+                        "(SELECT pID FROM Players WHERE pID=@WhitePlayer), " +
+                        "(SELECT pID FROM Players WHERE pID=@BlackPlayer), " +
+                        "(SELECT eID FROM Events WHERE eID=@EventeID))";
+
+                    //InsertPlayers.Prepare();
+                    //InsertPlayers.ExecuteNonQuery();
+                    //InsertPlayers.Parameters.AddWithValue("", 0);
+
+                    foreach (ChessGame Game in ChessGames)
+                    {
+                        String EventName = Game.getEvent;
+                        String SiteName = Game.getSite;
+                        String Round = Game.getRound;
+                        String WhitePlayer = Game.getWhitePlayer;
+                        String BlackPlayer = Game.getBlackPlayer;
+                        UInt32 WhiteElo = Game.getWhiteElo;
+                        UInt32 BlackElo = Game.getBlackElo;
+                        String Result = Game.getResult;
+                        String Moves = Game.getMoves;
+
+                        // INSERT STUFF AND DO CHECKING FOR UPDATING THE ELO
+                        using(MySqlDataReader reader = )
+                    }
 
 
                     // Use this to tell the GUI that one work step has completed:
