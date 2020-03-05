@@ -32,11 +32,11 @@ namespace ChessTools
         /// <summary>
         /// The white player's ELO rating at the time of the game
         /// </summary>
-        private Int32 WhiteElo;
+        private UInt32 WhiteElo;
         /// <summary>
         /// The black player's ELO rating at the time of the game
         /// </summary>
-        private Int32 BlackElo;
+        private UInt32 BlackElo;
         /// <summary>
         /// The result of the game
         /// </summary>
@@ -72,8 +72,8 @@ namespace ChessTools
             this.BlackPlayer = BlackPlayer;
 
             // Convert the ELO Rank to Integer Based on the Players and Event Table Specs
-            this.WhiteElo = Int32.Parse(WhiteElo);
-            this.BlackElo = Int32.Parse(BlackElo);
+            this.WhiteElo = UInt32.Parse(WhiteElo);
+            this.BlackElo = UInt32.Parse(BlackElo);
 
             this.Result = Result;
             this.EventDate = EventDate;
@@ -83,7 +83,7 @@ namespace ChessTools
         /// <summary>
         /// Returns the name of the event
         /// </summary>
-        public String getEvent { get => this.Event;}
+        public String getEvent { get => this.Event; }
         /// <summary>
         /// Returns the site
         /// </summary>
@@ -103,11 +103,11 @@ namespace ChessTools
         /// <summary>
         /// Returns the  ELO Rank of the black player
         /// </summary>
-        public int getBlackElo { get => this.BlackElo; }
+        public uint getBlackElo { get => this.BlackElo; }
         /// <summary>
         /// Returns the ELO Rank of the White Player
         /// </summary>
-        public int getWhiteElo { get => this.WhiteElo; }
+        public uint getWhiteElo { get => this.WhiteElo; }
         /// <summary>
         /// Returns the result of the Game
         /// If the score is "W" then White won

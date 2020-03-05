@@ -1,3 +1,11 @@
+CREATE TABLE `Players` (
+  `Name` varchar(255) DEFAULT NULL,
+  `Elo` int(10) unsigned DEFAULT NULL,
+  `pID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`pID`),
+  UNIQUE KEY `Name` (`Name`)
+);
+
  CREATE TABLE `Events` (
   `Name` varchar(255) NOT NULL,
   `Site` varchar(255) NOT NULL,
@@ -23,11 +31,4 @@ CREATE TABLE `Games` (
   CONSTRAINT `Games_ibfk_3` FOREIGN KEY (`eID`) REFERENCES `Events` (`eID`)
 );
 
-CREATE TABLE `Players` (
-  `Name` varchar(255) DEFAULT NULL,
-  `Elo` int(10) unsigned DEFAULT NULL,
-  `pID` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`pID`),
-  UNIQUE KEY `Name` (`Name`)
-);
 

@@ -18,7 +18,7 @@ namespace ChessTools
         /// </summary>
         /// <param name="FilePath">The path of the PGN File</param>
         /// <returns>List of chess games</returns>
-        public static List<ChessGame>GenerateChessGames(String filePath)
+        public static List<ChessGame> GenerateChessGames(String filePath)
         {
             // List for storing all the chess games
             List<ChessGame> ChessGames = new List<ChessGame>();
