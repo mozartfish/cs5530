@@ -16,6 +16,7 @@ namespace PGNReaderUnitTests
         {
             String filePath = @"C:\Users\rajan\Desktop\cs_work\cs5530\ChessBrowser\kb1.pgn";
             List<ChessGame> thing = PGNReader.GenerateChessGames(filePath);
+            Assert.IsTrue(thing.Count == 975);
             ChessGame first = thing[0];
             Assert.IsTrue(first.getEvent.Equals("4. IIFL Wealth Mumbai Op"));
             Assert.IsTrue(first.getSite.Equals("Mumbai IND"));
@@ -33,6 +34,7 @@ namespace PGNReaderUnitTests
         {
             String filePath = @"C:\Users\rajan\Desktop\cs_work\cs5530\ChessBrowser\kb2.pgn";
             List<ChessGame> foo = PGNReader.GenerateChessGames(filePath);
+            Assert.IsTrue(foo.Count == 1005);
             ChessGame first = foo[0];
             Assert.IsTrue(first.getEvent.Equals("12. Amantea Open 2014"));
             Assert.IsTrue(first.getSite.Equals("Amantea ITA"));
@@ -50,6 +52,7 @@ namespace PGNReaderUnitTests
         {
             String filePath = @"C:\Users\rajan\Desktop\cs_work\cs5530\ChessBrowser\kb3.pgn";
             List<ChessGame> foobar = PGNReader.GenerateChessGames(filePath);
+            Assert.IsTrue(foobar.Count == 1019);
             ChessGame first = foobar[0];
             Assert.IsTrue(first.getEvent.Equals("ETCC"));
             Assert.IsTrue(first.getSite.Equals("Crete GRE"));

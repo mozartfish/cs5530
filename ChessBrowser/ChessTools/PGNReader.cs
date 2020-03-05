@@ -142,6 +142,7 @@ namespace ChessTools
                     if (CurrentLine.Length == 0)
                     {
                         BlankLineCounter++;
+                        //continue;
                     }
                     if (BlankLineCounter == 1)
                     {
