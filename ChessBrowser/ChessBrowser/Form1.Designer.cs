@@ -54,18 +54,18 @@ namespace ChessBrowser
                     MySqlCommand InsertPlayersCommand = conn.CreateCommand();
                     InsertPlayersCommand.CommandText = "INSERT IGNORE INTO Players(Name, Elo)" +
                         "VALUES(@PlayerName, @NewElo) ON DUPLICATE KEY UPDATE " +
-                        "Elo=IF(@NewElo > Elo, @NewElo, Elo);";
+                        "Elo=IF(@NewElo > Elo, @NewElo, Elo)";
 
                     // INSERT EVENTS
                     MySqlCommand InsertEventCommand = conn.CreateCommand();
                     InsertEventCommand.CommandText = "INSERT IGNORE INTO Events(Name, Site, Date)" +
-                        "VALUES(@EventName, @EventSite, @EventDate);";
+                        "VALUES(@EventName, @EventSite, @EventDate)";
 
                     // INSERT GAMES
                     MySqlCommand InsertGamesCommand = conn.CreateCommand();
                     InsertGamesCommand.CommandText = "INSERT IGNORE INTO Games(Round, Result, Moves, BlackPlayer, WhitePlayer, eID)" +
                         "VALUES(@GameRound, @GameResult, @GameMoves, (SELECT pID FROM Players WHERE Name=@BPName), (SELECT pID FROM Players WHERE Name=@WPName), " +
-                        "(SELECT eID FROM Events WHERE Name=@EName));";
+                        "(SELECT eID FROM Events WHERE Name=@EName AND Site=@ESite AND Date=@EDate))";
 
                     foreach (ChessGame Game in ChessGames)
                     {
@@ -110,14 +110,16 @@ namespace ChessBrowser
                         InsertGamesCommand.Parameters.AddWithValue("@BPName", BlackPlayer);
                         InsertGamesCommand.Parameters.AddWithValue("@WPName", WhitePlayer);
                         InsertGamesCommand.Parameters.AddWithValue("@EName", EventName);
+                        InsertGamesCommand.Parameters.AddWithValue("@ESite", SiteName);
+                        InsertGamesCommand.Parameters.AddWithValue("@EDate", EventDate);
                         InsertGamesCommand.ExecuteNonQuery();
                         InsertGamesCommand.Parameters.Clear();
+                        WorkStepCompleted();
                     }
-
 
                     // Use this to tell the GUI that one work step has completed:
                     // WorkStepCompleted();
-                    WorkStepCompleted();
+
 
                 }
                 catch (Exception e)
@@ -167,6 +169,9 @@ namespace ChessBrowser
                     //       then parse the results into an appropriate string
                     //       and return it.
                     //       Remember that the returned string must use \r\n newlines
+
+                    MySqlCommand getInformationCommand = conn.CreateCommand();
+                    //String query = "SELECT * FROM "
                 }
                 catch (Exception e)
                 {

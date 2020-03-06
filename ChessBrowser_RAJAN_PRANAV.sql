@@ -1,3 +1,11 @@
+CREATE TABLE `Players` (
+  `Name` varchar(255) DEFAULT NULL,
+  `Elo` int(10) unsigned DEFAULT NULL,
+  `pID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`pID`),
+  UNIQUE KEY `Name` (`Name`)
+)
+
 CREATE TABLE `Events` (
   `Name` varchar(255) NOT NULL,
   `Site` varchar(255) NOT NULL,
@@ -5,7 +13,7 @@ CREATE TABLE `Events` (
   `eID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`eID`),
   UNIQUE KEY `Name` (`Name`,`Date`,`Site`)
-);
+) 
 
 CREATE TABLE `Games` (
   `Round` varchar(10) NOT NULL,
@@ -21,12 +29,4 @@ CREATE TABLE `Games` (
   CONSTRAINT `Games_ibfk_1` FOREIGN KEY (`WhitePlayer`) REFERENCES `Players` (`pID`),
   CONSTRAINT `Games_ibfk_2` FOREIGN KEY (`BlackPlayer`) REFERENCES `Players` (`pID`),
   CONSTRAINT `Games_ibfk_3` FOREIGN KEY (`eID`) REFERENCES `Events` (`eID`)
-);
-
-CREATE TABLE `Players` (
-  `Name` varchar(255) DEFAULT NULL,
-  `Elo` int(10) unsigned DEFAULT NULL,
-  `pID` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`pID`),
-  UNIQUE KEY `Name` (`Name`)
-);
+)
