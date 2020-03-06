@@ -54,27 +54,38 @@ namespace ChessBrowser
                     // SQL COMMANDS
                     // INSERT PLAYERS
                     MySqlCommand InsertPlayersCommand = conn.CreateCommand();
-                    InsertPlayersCommand.CommandText = "INSERT INTO Players(Name, Elo, pID) VALUES(@PlayerName, @PlayerElo, @PlayereID)";
+                    InsertPlayersCommand.CommandText = "INSERT IGNORE INTO Players(Name, Elo)" +
+                        "VALUES(@Name, @Elo)";
+                    //InsertPlayersCommand.CommandText = "INSERT INTO Players(Name, Elo) VALUES(@PlayerName, @PlayerElo)";
 
                     // FIND PLAYERS
                     MySqlCommand FindPlayersCommand = conn.CreateCommand();
-                    FindPlayersCommand.CommandText = "SELECT Name, Elo FROM Players WHERE Name=@FindPlayerName";
+                    FindPlayersCommand.CommandText = "SELECT NAME, Elo FROM Players WHERE Name=@Name";
+                    //FindPlayersCommand.CommandText = "SELECT Name, Elo FROM Players WHERE Name=@FindPlayerName";
 
                     // UPDATE PLAYER ELO RATING TO THE HIGHEST ELO RATING SEEN SO FAR
                     MySqlCommand HighestEloCommand = conn.CreateCommand();
-                    HighestEloCommand.CommandText = "UPDATE Players(Elo) SET Elo=@HighestEloSoFar WHERE Name=@ThePlayerName";
+                    HighestEloCommand.CommandText = "UPDATE Players(Elo)" +
+                        "SET Elo=@NewElo " +
+                        "WHERE Name=@Name";
+                    //HighestEloCommand.CommandText = "UPDATE Players(Elo) SET Elo=@NewElo WHERE Name=@ThePlayerName";
 
                     // EVENTS
                     MySqlCommand InsertEventCommand = conn.CreateCommand();
-                    InsertEventCommand.CommandText = "INSERT IGNORE INTO Events(Name, Site, Date) VALUES(@EventName, @EventSite, @EventDate)";
+                    InsertEventCommand.CommandText = "INSERT IGNORE INTO Events(Name, Site, Date)" +
+                        "VALUES(@Name, @Site, @Date)";
+
+                    //InsertEventCommand.CommandText = "INSERT IGNORE INTO Events(Name, Site, Date) VALUES(@EventName, @EventSite, @EventDate)";
 
                     // GAMES
                     MySqlCommand InsertGamesCommand = conn.CreateCommand();
-                    InsertGamesCommand.CommandText = "INSERT IGNORE INTO Games(Round, Result, Moves, WhitePlayer, BlackPlayer, eID) VALUES(@GameResult, @GameMoves, " +
-                        "(SELECT pID FROM Players WHERE pID=@WhitePlayer), " +
-                        "(SELECT pID FROM Players WHERE pID=@BlackPlayer), " +
-                        "(SELECT eID FROM Events WHERE eID=@EventeID))";
+                    InsertGamesCommand.CommandText = "INSERT IGNORE INTO Games(Round, Result, Moves, BlackPlayer, WhitePlayer, eID)" +
+                        "VALUES(@Round, @Result, @Moves,(SELECT pID FROM Players WHERE Name=@WPName), (SELECT pID FROM Players WHERE Name=@BPName), (SELECT eID FROM Events WHERE Name=@EName))";
 
+                    //InsertGamesCommand.CommandText = "INSERT IGNORE INTO Games(Round, Result, Moves, WhitePlayer, BlackPlayer, eID) VALUES(@GameRound, @GameResult, @GameMoves, " +
+                    //    "(SELECT pID FROM Players WHERE Name=@WhitePlayerName), " +
+                    //    "(SELECT pID FROM Players WHERE Name=@BlackPlayerName), " +
+                    //    "(SELECT eID FROM Events WHERE Name=@TheEventName))";
                     //InsertPlayers.Prepare();
                     //InsertPlayers.ExecuteNonQuery();
                     //InsertPlayers.Parameters.AddWithValue("", 0);
@@ -89,10 +100,106 @@ namespace ChessBrowser
                         UInt32 WhiteElo = Game.getWhiteElo;
                         UInt32 BlackElo = Game.getBlackElo;
                         String Result = Game.getResult;
+                        String EventDate = Game.getEventDate;
                         String Moves = Game.getMoves;
 
                         // INSERT STUFF AND DO CHECKING FOR UPDATING THE ELO
-                        using(MySqlDataReader reader = )
+
+                        // Substitute in the variable names
+                        FindPlayersCommand.Parameters.AddWithValue("@Name", WhitePlayer);
+                        using (MySqlDataReader reader = FindPlayersCommand.ExecuteReader())
+                        {
+                            // CHECK IF THERE ARE ROWS
+                            // IF NONE THEN ENTER THE NEW PLAYER
+                            if (!reader.HasRows)
+                            {
+                                reader.Close();
+                                InsertPlayersCommand.Parameters.AddWithValue("@Name", WhitePlayer);
+                                InsertPlayersCommand.Parameters.AddWithValue("@Elo", WhiteElo);
+                                InsertPlayersCommand.ExecuteNonQuery();
+                                InsertPlayersCommand.Parameters.Clear();
+                                FindPlayersCommand.Parameters.Clear();
+                                //InsertPlayersCommand.Dispose();
+                            }
+
+                            // get and check the elo
+                            else
+                            {
+                                // Advance the Reader to  the selection if there was one
+                                reader.Read();
+                                //String PlayerName = reader.GetString(0);
+                                UInt32 oldElo = reader.GetUInt32(1);
+
+                                if (oldElo < WhiteElo)
+                                {
+                                    // UPDATE THE ELO RATING
+                                    reader.Close();
+                                    HighestEloCommand.Parameters.AddWithValue("@NewElo", WhiteElo);
+                                    HighestEloCommand.Parameters.AddWithValue("@Name", WhitePlayer);
+                                    HighestEloCommand.ExecuteNonQuery();
+                                    HighestEloCommand.Parameters.Clear();
+                                    FindPlayersCommand.Parameters.Clear();
+                                    //HighestEloCommand.Dispose();
+                                }
+                            }
+                        }
+
+                        // Substitute in the variable names
+                        FindPlayersCommand.Parameters.AddWithValue("@Name", BlackPlayer);
+                        using (MySqlDataReader reader = FindPlayersCommand.ExecuteReader())
+                        {
+                            // CHECK IF THERE ARE ROWS
+                            // IF NONE THEN ENTER THE NEW PLAYER
+                            if (!reader.HasRows)
+                            {
+                                reader.Close();
+                                InsertPlayersCommand.Parameters.AddWithValue("@Name", BlackPlayer);
+                                InsertPlayersCommand.Parameters.AddWithValue("@Elo", BlackElo);
+                                InsertPlayersCommand.ExecuteNonQuery();
+                                InsertPlayersCommand.Parameters.Clear();
+                                FindPlayersCommand.Parameters.Clear();
+                                //InsertPlayersCommand.Dispose();
+                            }
+                            // get and check the elo
+                            else 
+                            {
+                                // Advance the Reader to the selection if there is one
+                                reader.Read();
+                                //String PlayerName = reader.GetString(0);
+                                UInt32 oldElo = reader.GetUInt32(1);
+
+                                if (oldElo < BlackElo)
+                                {
+                                    // UPDATE THE ELO RATING
+                                    reader.Close();
+                                    HighestEloCommand.Parameters.AddWithValue(@"NewElo", BlackElo);
+                                    HighestEloCommand.Parameters.AddWithValue("@Name", BlackPlayer);
+                                    HighestEloCommand.ExecuteNonQuery();
+                                    HighestEloCommand.Parameters.Clear();
+                                    FindPlayersCommand.Parameters.Clear();
+                                    //HighestEloCommand.Dispose();
+                                }
+                            }
+                        }
+
+                        // INSERT EVENTS
+                        InsertEventCommand.Parameters.AddWithValue("@Name", EventName);
+                        InsertEventCommand.Parameters.AddWithValue("@Site", SiteName);
+                        InsertEventCommand.Parameters.AddWithValue("@Date", EventDate);
+                        InsertEventCommand.ExecuteNonQuery();
+                        InsertEventCommand.Parameters.Clear();
+                        //InsertEventCommand.Dispose();
+
+                        // INSERT GAMES
+                        InsertGamesCommand.Parameters.AddWithValue("@Round", Round);
+                        InsertGamesCommand.Parameters.AddWithValue("@Result", Result);
+                        InsertGamesCommand.Parameters.AddWithValue("@Moves", Moves);   
+                        InsertGamesCommand.Parameters.AddWithValue("@WPName", WhitePlayer);
+                        InsertGamesCommand.Parameters.AddWithValue("@BPName", BlackPlayer);
+                        InsertGamesCommand.Parameters.AddWithValue("@EName", EventName);
+                        InsertGamesCommand.ExecuteNonQuery();
+                        InsertGamesCommand.Parameters.Clear();
+                        //InsertGamesCommand.Dispose();
                     }
 
 
