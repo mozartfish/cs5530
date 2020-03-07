@@ -67,7 +67,7 @@ namespace ChessBrowser
                         "VALUES(@GameRound, @GameResult, @GameMoves, " +
                         "(SELECT pID FROM Players WHERE Name=@BPName), " +
                         "(SELECT pID FROM Players WHERE Name=@WPName), " +
-                        "(SELECT eID FROM Events WHERE Name=@EName AND Site=@ESite AND Date=@EDate))";
+                        "(SELECT eID FROM Events WHERE Name=@EventName AND Site=@EventSite AND Date=@EventDate))";
 
                     foreach (ChessGame Game in ChessGames)
                     {
@@ -112,9 +112,9 @@ namespace ChessBrowser
                         InsertGamesCommand.Parameters.AddWithValue("@GameMoves", Moves);
                         InsertGamesCommand.Parameters.AddWithValue("@BPName", BlackPlayer);
                         InsertGamesCommand.Parameters.AddWithValue("@WPName", WhitePlayer);
-                        InsertGamesCommand.Parameters.AddWithValue("@EName", EventName);
-                        InsertGamesCommand.Parameters.AddWithValue("@ESite", SiteName);
-                        InsertGamesCommand.Parameters.AddWithValue("@EDate", EventDate);
+                        InsertGamesCommand.Parameters.AddWithValue("@EventName", EventName);
+                        InsertGamesCommand.Parameters.AddWithValue("@EventSite", SiteName);
+                        InsertGamesCommand.Parameters.AddWithValue("@EventDate", EventDate);
                         InsertGamesCommand.ExecuteNonQuery();
                         InsertGamesCommand.Parameters.Clear();
                         WorkStepCompleted();
@@ -173,10 +173,92 @@ namespace ChessBrowser
                     //       and return it.
                     //       Remember that the returned string must use \r\n newlines
 
-                    MySqlCommand getInformationCommand = conn.CreateCommand();
-                    String Query = ""
+                    // INFORMATION RETRIEVAL
+                    MySqlCommand GetInformationCommand = conn.CreateCommand();
 
+                    // MAIN QUERY
+                    String Query = "SELECT Events.Name as EventName, " +
+                        "Events.Site as EventSite, " +
+                        "Events.Date as EventDate, " +
+                        "BP.Name as BPName, " +
+                        "WP.Name as WPName, " +
+                        "BP.Elo as BPElo, " +
+                        "WP.Elo as WPElo, " +
+                        "Games.Result as GameResult, " +
+                        "Games.Moves as GameMoves " +
+                        "FROM Players as BP JOIN Games NATURAL JOIN Events ON Games.BlackPlayer=BP.pID " +
+                        "JOIN Players as WP ON Games.WhitePlayer=WP.pID " +
+                        "WHERE TRUE ";
 
+                    if (white != "")
+                    {
+                        Query += "AND WP.Name=@Name ";
+                        GetInformationCommand.Parameters.AddWithValue("@Name", white);
+                    }
+                    if (black != "")
+                    {
+                        Query += "AND BP.Name=@BPName ";
+                        GetInformationCommand.Parameters.AddWithValue("@BPName", black);
+                    }
+                    if (opening != "")
+                    {
+                        Query += "AND Games.Moves LIKE @open ";
+                        GetInformationCommand.Parameters.AddWithValue("@open", opening + "%");
+                    }
+                    if (useDate)
+                    {
+                        Query += "AND (Events.Date >= @Start AND Events.Date <= @End) ";
+                        GetInformationCommand.Parameters.AddWithValue("@Start", start);
+                        GetInformationCommand.Parameters.AddWithValue("@End", end);
+                    }
+                    if (winner.Equals("White") || winner.Equals("Black") || winner.Equals("Draw"))
+                    {
+                        if (winner.Equals("White"))
+                        {
+                            winner = "W";
+                        }
+                        if (winner.Equals("Black"))
+                        {
+                            winner = "B";
+                        }
+                        if (winner.Equals("Draw"))
+                        {
+                            winner = "D";
+                        }
+                        Query += "AND Games.Result=@Winner ";
+                        GetInformationCommand.Parameters.AddWithValue("@Winner", winner);
+                    }
+
+                    // GET THE RESULTS ORDERED BY DESCENDING GAME DATE
+                    Query += "ORDER BY EventDate DESC";
+
+                    // GET THE FINAL COMMAND AS A STRING
+                    GetInformationCommand.CommandText = Query;
+
+                    // RETURN THE RESULT
+                    using (MySqlDataReader reader = GetInformationCommand.ExecuteReader())
+                    { 
+                        while (reader.Read())
+                        {
+                            parsedResult += "Event: " + reader["EventName"] + "\r\n";
+                            parsedResult += "Site: " + reader["EventSite"] + "\r\n";
+                            parsedResult += "Date: " + reader["EventDate"] + "\r\n";
+                            parsedResult += "White: " + reader["WPName"] + " (" + reader["WPElo"] + ")\r\n";
+                            parsedResult += "Black: " + reader["BPName"] + " (" + reader["BPElo"] + ")\r\n";
+                            if (showMoves)
+                            {
+                                parsedResult += "Result: " + reader["GameResult"] + "\r\n";
+                                parsedResult += "Moves: " + reader["GameMoves"] + "\r\n\r\n";
+                            }
+                            if (!showMoves)
+                            {
+                                parsedResult += "Result: " + reader["GameResult"] + "\r\n\r\n";
+                            }
+
+                            numRows++;
+                        }
+
+                    }
                 }
                 catch (Exception e)
                 {
@@ -184,7 +266,7 @@ namespace ChessBrowser
                 }
             }
 
-            return numRows + " results\r\n\r\n" + parsedResult;
+            return numRows + " results\r\n\r\n" + parsedResult + "\r\n\r\n";
         }
 
 

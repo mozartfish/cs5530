@@ -22,7 +22,7 @@ namespace ChessTools
         {
             // List for storing all the chess games
             List<ChessGame> ChessGames = new List<ChessGame>();
-            String[] file = File.ReadAllLines(filePath);
+            String[] File = System.IO.File.ReadAllLines(filePath);
 
             // Variables that store information for the different parts of a game
             // The String type was chosen to represent all the data to based on the types for the different 
@@ -51,9 +51,9 @@ namespace ChessTools
             // Counter for keeping track of blank lines for identifying where moves are located and when to start a new game
             int BlankLineCounter = 0;
 
-            for (int LineNumber = 0; LineNumber < file.Length; LineNumber++)
+            for (int LineNumber = 0; LineNumber < File.Length; LineNumber++)
             {
-                String CurrentLine = file[LineNumber];
+                String CurrentLine = File[LineNumber];
 
                 // CASE 1: EVENTS
                 if (CurrentLine.StartsWith("[Event "))
@@ -104,12 +104,12 @@ namespace ChessTools
                         Result = "D";
                     }
                     // CASE 2: BLACK WINS
-                    else if (Result.Equals("0-1"))
+                    if (Result.Equals("0-1"))
                     {
                         Result = "B";
                     }
                     // CASE 3: WHITE WINS
-                    else
+                    if (Result.Equals("1-0"))
                     {
                         Result = "W";
                     }
