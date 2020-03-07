@@ -64,7 +64,9 @@ namespace ChessBrowser
                     // INSERT GAMES
                     MySqlCommand InsertGamesCommand = conn.CreateCommand();
                     InsertGamesCommand.CommandText = "INSERT IGNORE INTO Games(Round, Result, Moves, BlackPlayer, WhitePlayer, eID)" +
-                        "VALUES(@GameRound, @GameResult, @GameMoves, (SELECT pID FROM Players WHERE Name=@BPName), (SELECT pID FROM Players WHERE Name=@WPName), " +
+                        "VALUES(@GameRound, @GameResult, @GameMoves, " +
+                        "(SELECT pID FROM Players WHERE Name=@BPName), " +
+                        "(SELECT pID FROM Players WHERE Name=@WPName), " +
                         "(SELECT eID FROM Events WHERE Name=@EName AND Site=@ESite AND Date=@EDate))";
 
                     foreach (ChessGame Game in ChessGames)
@@ -84,6 +86,7 @@ namespace ChessBrowser
                         // INSERT SOME EPIC STUFF
 
                         // PLAYERS
+
                         // INSERT WHITE PLAYER
                         InsertPlayersCommand.Parameters.AddWithValue("@PlayerName", WhitePlayer);
                         InsertPlayersCommand.Parameters.AddWithValue("@NewElo", WhiteElo);
@@ -171,7 +174,9 @@ namespace ChessBrowser
                     //       Remember that the returned string must use \r\n newlines
 
                     MySqlCommand getInformationCommand = conn.CreateCommand();
-                    //String query = "SELECT * FROM "
+                    String Query = ""
+
+
                 }
                 catch (Exception e)
                 {
