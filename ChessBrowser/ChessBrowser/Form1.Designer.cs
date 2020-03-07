@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
+
 namespace ChessBrowser
 {
     partial class Form1
@@ -84,8 +85,6 @@ namespace ChessBrowser
                         String Moves = Game.getMoves;
 
                         // INSERT SOME EPIC STUFF
-
-                        // PLAYERS
 
                         // INSERT WHITE PLAYER
                         InsertPlayersCommand.Parameters.AddWithValue("@PlayerName", WhitePlayer);
@@ -202,8 +201,8 @@ namespace ChessBrowser
                     }
                     if (opening != "")
                     {
-                        Query += "AND Games.Moves LIKE @open ";
-                        GetInformationCommand.Parameters.AddWithValue("@open", opening + "%");
+                        Query += "AND Games.Moves LIKE @Open ";
+                        GetInformationCommand.Parameters.AddWithValue("@Open", opening + "%");
                     }
                     if (useDate)
                     {
@@ -254,7 +253,6 @@ namespace ChessBrowser
                             {
                                 parsedResult += "Result: " + reader["GameResult"] + "\r\n\r\n";
                             }
-
                             numRows++;
                         }
 
