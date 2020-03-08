@@ -1,8 +1,0 @@
-C:\Users\rajan\Desktop\cs_work\cs5530\ChessBrowser\ChessTools\bin\Debug\netstandard2.0\ChessTools.deps.json
-C:\Users\rajan\Desktop\cs_work\cs5530\ChessBrowser\ChessTools\bin\Debug\netstandard2.0\ChessTools.dll
-C:\Users\rajan\Desktop\cs_work\cs5530\ChessBrowser\ChessTools\bin\Debug\netstandard2.0\ChessTools.pdb
-C:\Users\rajan\Desktop\cs_work\cs5530\ChessBrowser\ChessTools\obj\Debug\netstandard2.0\ChessTools.csprojAssemblyReference.cache
-C:\Users\rajan\Desktop\cs_work\cs5530\ChessBrowser\ChessTools\obj\Debug\netstandard2.0\ChessTools.AssemblyInfoInputs.cache
-C:\Users\rajan\Desktop\cs_work\cs5530\ChessBrowser\ChessTools\obj\Debug\netstandard2.0\ChessTools.AssemblyInfo.cs
-C:\Users\rajan\Desktop\cs_work\cs5530\ChessBrowser\ChessTools\obj\Debug\netstandard2.0\ChessTools.dll
-C:\Users\rajan\Desktop\cs_work\cs5530\ChessBrowser\ChessTools\obj\Debug\netstandard2.0\ChessTools.pdb
